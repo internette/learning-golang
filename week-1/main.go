@@ -36,17 +36,21 @@ func getTasks() []Task {
 		fmt.Println("Error unmarshaling JSON:", err)
 		return []Task{}
 	}
+	return tasks
+}
+
+func listTasks(tasks []Task) {
 	for i := 0; i < len(tasks); i++ {
 		task := tasks[i]
-		fmt.Println(task.Name)
+		fmt.Printf("- %s\n", task.Name)
 	}
-	return tasks
 }
 
 func main() {
 	// task := flag.String("taskName", "task name", "Name of the task")
 	flag.Parse()
-	getTasks()
+	tasks := getTasks()
+	listTasks(tasks)
 	// var dataSlice = make([]Task, 0)
 
 	// addTask(dataSlice, *task)
