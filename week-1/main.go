@@ -5,8 +5,13 @@ import (
 	"fmt"
 )
 
+func addTask(taskName string) {
+	fmt.Printf("- %s\n", taskName)
+}
+
 func main() {
 	task := flag.String("taskName", "task name", "Name of the task")
 	flag.Parse()
-	fmt.Printf("- %s\n", *task)
+
+	addTask(*task)
 }
