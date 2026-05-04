@@ -7,7 +7,7 @@ import (
 )
 
 func addTask(taskName string) {
-	var file, err = os.Create("example.txt")
+	var file, err = os.Create("tasks.txt")
 	if err != nil {
 		fmt.Println("Error creating file:", err)
 		return
