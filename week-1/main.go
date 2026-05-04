@@ -19,7 +19,6 @@ func addTask(tasks []Task, taskName string) {
 	bts, err := json.Marshal(tasks)
 	if err != nil {
 		fmt.Println("Error writing to file:", err)
-		return
 	}
 	os.WriteFile("tasks.json", bts, 0644)
 
@@ -29,7 +28,7 @@ func addTask(tasks []Task, taskName string) {
 func getTasks() []Task {
 	data, err := os.ReadFile("tasks.json")
 	if err != nil {
-		fmt.Println("Error reading file:", err)
+		fmt.Println("No file found. Starting with an empty list.")
 		return []Task{}
 	}
 
