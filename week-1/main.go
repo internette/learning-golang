@@ -72,8 +72,10 @@ func main() {
 		listTasks(tasks)
 	case "add":
 		addTask(tasks, *task, *taskStatus)
+		listTasks(tasks)
 	case "del":
 		delTask(tasks, *taskIndex)
+		listTasks(tasks)
 	default:
 		listTasks(tasks)
 	}
