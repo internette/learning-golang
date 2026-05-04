@@ -1,23 +1,24 @@
 package main
 
 import (
+	"encoding/json"
 	"flag"
 	"fmt"
 	"os"
 )
 
-func addTask(taskName string) {
-	var file, err = os.Create("tasks.txt")
-	if err != nil {
-		fmt.Println("Error creating file:", err)
-		return
-	}
-	// Write a string to the file
-	_, err = file.WriteString(taskName)
+type Task struct {
+	Name string `json:"name"`
+}
+
+func addTask(tasks []Task, taskName string) {
+	tasks = append(tasks, Task{Name: taskName})
+	bts, err := json.Marshal(tasks)
 	if err != nil {
 		fmt.Println("Error writing to file:", err)
 		return
 	}
+	os.WriteFile("tasks.json", bts, 0644)
 
 	fmt.Println("Data written successfully.")
 }
@@ -25,6 +26,7 @@ func addTask(taskName string) {
 func main() {
 	task := flag.String("taskName", "task name", "Name of the task")
 	flag.Parse()
+	var dataSlice = make([]Task, 0)
 
-	addTask(*task)
+	addTask(dataSlice, *task)
 }
