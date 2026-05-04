@@ -44,7 +44,7 @@ func getTasks() []Task {
 func listTasks(tasks []Task) {
 	for i := 0; i < len(tasks); i++ {
 		task := tasks[i]
-		fmt.Printf("- %s\n", task.Name)
+		fmt.Printf("%d. %s\n", task.Index, task.Name)
 	}
 }
 
