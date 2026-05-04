@@ -47,11 +47,16 @@ func listTasks(tasks []Task) {
 }
 
 func main() {
-	// task := flag.String("taskName", "task name", "Name of the task")
-	flag.Parse()
+	cmd := flag.String("cmd", "get", "Command to execute")
+	task := flag.String("taskName", "task name", "Name of the task")
 	tasks := getTasks()
-	listTasks(tasks)
-	// var dataSlice = make([]Task, 0)
-
-	// addTask(dataSlice, *task)
+	flag.Parse()
+	switch *cmd {
+	case "get":
+		listTasks(tasks)
+	case "add":
+		addTask(tasks, *task)
+	default:
+		listTasks(tasks)
+	}
 }
