@@ -56,8 +56,7 @@ func getTasks() []Task {
 func listTasks(tasks []Task) {
 	fmt.Printf("%-5s %-25s %-20s\n", "Index", "Name", "Status")
 	fmt.Printf("%-5s %-25s %-20s\n", "----", "----", "----")
-	for i := 0; i < len(tasks); i++ {
-		task := tasks[i]
+	for _, task := range tasks {
 		fmt.Printf("%-5d %-25s %-20s\n", task.Index, task.Name, task.Status)
 	}
 }
@@ -65,8 +64,7 @@ func listTasks(tasks []Task) {
 func listFilterTasks(tasks []Task, taskFilter string) {
 	fmt.Printf("%-5s %-25s %-20s\n", "Index", "Name", "Status")
 	fmt.Printf("%-5s %-25s %-20s\n", "----", "----", "----")
-	for i := 0; i < len(tasks); i++ {
-		task := tasks[i]
+	for _, task := range tasks {
 		if task.Status == taskFilter {
 			fmt.Printf("%-5d %-25s %-20s\n", task.Index, task.Name, task.Status)
 		}
