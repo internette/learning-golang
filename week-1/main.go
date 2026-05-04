@@ -8,13 +8,14 @@ import (
 )
 
 type Task struct {
-	Name  string `json:"name"`
-	Index int    `json:"index"`
+	Name   string `json:"name"`
+	Index  int    `json:"index"`
+	Status string `json:"status"`
 }
 
-func addTask(tasks []Task, taskName string) {
+func addTask(tasks []Task, taskName string, taskStatus string) {
 	index := len(tasks) + 1
-	newTask := Task{Name: taskName, Index: index}
+	newTask := Task{Name: taskName, Index: index, Status: taskStatus}
 	tasks = append(tasks, newTask)
 	bts, err := json.Marshal(tasks)
 	if err != nil {
@@ -55,7 +56,7 @@ func getTasks() []Task {
 func listTasks(tasks []Task) {
 	for i := 0; i < len(tasks); i++ {
 		task := tasks[i]
-		fmt.Printf("%d. %s\n", task.Index, task.Name)
+		fmt.Printf("%d. %s - %s\n", task.Index, task.Name, task.Status)
 	}
 }
 
@@ -63,13 +64,14 @@ func main() {
 	cmd := flag.String("cmd", "get", "Command to execute")
 	task := flag.String("taskName", "task name", "Name of the task")
 	taskIndex := flag.Int("taskIndex", 1, "Index of the task")
+	taskStatus := flag.String("taskStatus", "pending", "Status of the task")
 	tasks := getTasks()
 	flag.Parse()
 	switch *cmd {
 	case "get":
 		listTasks(tasks)
 	case "add":
-		addTask(tasks, *task)
+		addTask(tasks, *task, *taskStatus)
 	case "del":
 		delTask(tasks, *taskIndex)
 	default:
