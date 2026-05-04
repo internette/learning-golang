@@ -25,6 +25,17 @@ func addTask(tasks []Task, taskName string) {
 	fmt.Println("Data written successfully.")
 }
 
+func delTask(tasks []Task, taskIndex int) {
+	tasks = append(tasks[:taskIndex-1], tasks[taskIndex:]...)
+	bts, err := json.Marshal(tasks)
+	if err != nil {
+		fmt.Println("Error writing to file:", err)
+	}
+	os.WriteFile("tasks.json", bts, 0644)
+
+	fmt.Println("Task deleted successfully.")
+}
+
 func getTasks() []Task {
 	data, err := os.ReadFile("tasks.json")
 	if err != nil {
@@ -51,6 +62,7 @@ func listTasks(tasks []Task) {
 func main() {
 	cmd := flag.String("cmd", "get", "Command to execute")
 	task := flag.String("taskName", "task name", "Name of the task")
+	taskIndex := flag.Int("taskIndex", 1, "Index of the task")
 	tasks := getTasks()
 	flag.Parse()
 	switch *cmd {
@@ -58,6 +70,8 @@ func main() {
 		listTasks(tasks)
 	case "add":
 		addTask(tasks, *task)
+	case "del":
+		delTask(tasks, *taskIndex)
 	default:
 		listTasks(tasks)
 	}
