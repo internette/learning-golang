@@ -60,16 +60,29 @@ func listTasks(tasks []Task) {
 	}
 }
 
+func listFilterTasks(tasks []Task, taskFilter string) {
+	for i := 0; i < len(tasks); i++ {
+		task := tasks[i]
+		if task.Status == taskFilter {
+			fmt.Printf("%d. %s - %s\n", task.Index, task.Name, task.Status)
+		}
+	}
+}
+
 func main() {
 	cmd := flag.String("cmd", "get", "Command to execute")
 	task := flag.String("taskName", "task name", "Name of the task")
 	taskIndex := flag.Int("taskIndex", 1, "Index of the task")
-	taskStatus := flag.String("taskStatus", "pending", "Status of the task")
+	taskStatus := flag.String("taskStatus", "", "Status of the task")
 	tasks := getTasks()
 	flag.Parse()
 	switch *cmd {
 	case "get":
-		listTasks(tasks)
+		if *taskStatus != "" {
+			listFilterTasks(tasks, *taskStatus)
+		} else {
+			listTasks(tasks)
+		}
 	case "add":
 		addTask(tasks, *task, *taskStatus)
 		listTasks(tasks)
@@ -77,6 +90,10 @@ func main() {
 		delTask(tasks, *taskIndex)
 		listTasks(tasks)
 	default:
-		listTasks(tasks)
+		if *taskStatus != "" {
+			listFilterTasks(tasks, *taskStatus)
+		} else {
+			listTasks(tasks)
+		}
 	}
 }
