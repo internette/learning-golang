@@ -8,11 +8,14 @@ import (
 )
 
 type Task struct {
-	Name string `json:"name"`
+	Name  string `json:"name"`
+	Index int    `json:"index"`
 }
 
 func addTask(tasks []Task, taskName string) {
-	tasks = append(tasks, Task{Name: taskName})
+	index := len(tasks) + 1
+	newTask := Task{Name: taskName, Index: index}
+	tasks = append(tasks, newTask)
 	bts, err := json.Marshal(tasks)
 	if err != nil {
 		fmt.Println("Error writing to file:", err)
