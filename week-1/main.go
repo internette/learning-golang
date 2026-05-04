@@ -23,10 +23,31 @@ func addTask(tasks []Task, taskName string) {
 	fmt.Println("Data written successfully.")
 }
 
-func main() {
-	task := flag.String("taskName", "task name", "Name of the task")
-	flag.Parse()
-	var dataSlice = make([]Task, 0)
+func getTasks() []Task {
+	data, err := os.ReadFile("tasks.json")
+	if err != nil {
+		fmt.Println("Error reading file:", err)
+		return []Task{}
+	}
 
-	addTask(dataSlice, *task)
+	var tasks []Task
+	err = json.Unmarshal(data, &tasks)
+	if err != nil {
+		fmt.Println("Error unmarshaling JSON:", err)
+		return []Task{}
+	}
+	for i := 0; i < len(tasks); i++ {
+		task := tasks[i]
+		fmt.Println(task.Name)
+	}
+	return tasks
+}
+
+func main() {
+	// task := flag.String("taskName", "task name", "Name of the task")
+	flag.Parse()
+	getTasks()
+	// var dataSlice = make([]Task, 0)
+
+	// addTask(dataSlice, *task)
 }
