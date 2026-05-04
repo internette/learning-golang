@@ -56,7 +56,6 @@ func getTasks() []Task {
 func listTasks(tasks []Task) {
 	fmt.Printf("%-5s %-25s %-20s\n", "Index", "Name", "Status")
 	fmt.Printf("%-5s %-25s %-20s\n", "----", "----", "----")
-	// Flush to calculate widths and print
 	for i := 0; i < len(tasks); i++ {
 		task := tasks[i]
 		fmt.Printf("%-5d %-25s %-20s\n", task.Index, task.Name, task.Status)
