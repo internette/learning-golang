@@ -1,3 +1,3 @@
-module week-1
+module tasks
 
 go 1.26.2
