@@ -1,28 +1,38 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"os"
 	"strings"
 )
 
-func getProjects() {
+type Folder struct {
+	Name string `json:"name"`
+	Path string `json:"path"`
+}
+
+func createLogbook() {
 	entries, err := os.ReadDir("../")
 	if err != nil {
 		fmt.Println("Error reading directory:", err)
 		return
 	}
-	var projectFolders []string
+	var projectFolders []Folder
 	for _, entry := range entries {
 		if entry.IsDir() && strings.Contains(entry.Name(), "week-") {
-			projectFolders = append(projectFolders, entry.Name())
+			var formattedName = strings.ReplaceAll(entry.Name(), "-", " ")
+			formattedName = strings.ReplaceAll(formattedName, "w", "W")
+			projectFolders = append(projectFolders, Folder{Name: formattedName, Path: entry.Name()})
 		}
 	}
-	for _, folder := range projectFolders {
-		fmt.Println(folder)
+	bts, err := json.Marshal(projectFolders)
+	if err != nil {
+		fmt.Println("Error writing to file:", err)
 	}
+	os.WriteFile("logbook.json", bts, 0644)
 }
 
 func main() {
-	getProjects()
+	createLogbook()
 }
