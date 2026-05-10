@@ -15,7 +15,7 @@ type Folder struct {
 }
 
 var rootCmd = &cobra.Command{
-	Use:   "algorithmsLogbook",
+	Use:   "logbook",
 	Short: "Create a logbook of algorithm projects",
 	Long:  `A CLI tool to generate a JSON logbook of weekly algorithm projects.`,
 	Run: func(cmd *cobra.Command, args []string) {
@@ -48,7 +48,7 @@ func createLogbook() error {
 }
 
 var createLogbookCmd = &cobra.Command{
-	Use:   "create-logbook",
+	Use:   "create",
 	Short: "Create a logbook of algorithm projects",
 	Long:  "Create a logbook of algorithm projects and track them.",
 	Run: func(cmd *cobra.Command, args []string) {
