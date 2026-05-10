@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"os"
 	"strings"
+
+	"github.com/spf13/cobra"
 )
 
 type Folder struct {
@@ -12,11 +14,19 @@ type Folder struct {
 	Path string `json:"path"`
 }
 
-func createLogbook() {
+var rootCmd = &cobra.Command{
+	Use:   "algorithmsLogbook",
+	Short: "Create a logbook of algorithm projects",
+	Long:  `A CLI tool to generate a JSON logbook of weekly algorithm projects.`,
+	Run: func(cmd *cobra.Command, args []string) {
+		fmt.Println("This is a simple CLI tool to create a logbook of algorithm projects and track them.")
+	},
+}
+
+func createLogbook() error {
 	entries, err := os.ReadDir("../")
 	if err != nil {
-		fmt.Println("Error reading directory:", err)
-		return
+		return fmt.Errorf("error reading directory: %w", err)
 	}
 	var projectFolders []Folder
 	for _, entry := range entries {
@@ -28,11 +38,36 @@ func createLogbook() {
 	}
 	bts, err := json.Marshal(projectFolders)
 	if err != nil {
-		fmt.Println("Error writing to file:", err)
+		return fmt.Errorf("error marshaling to JSON: %w", err)
 	}
-	os.WriteFile("logbook.json", bts, 0644)
+	err = os.WriteFile("logbook.json", bts, 0644)
+	if err != nil {
+		return fmt.Errorf("error writing to file: %w", err)
+	}
+	return nil
+}
+
+var createLogbookCmd = &cobra.Command{
+	Use:   "create-logbook",
+	Short: "Create a logbook of algorithm projects",
+	Long:  "Create a logbook of algorithm projects and track them.",
+	Run: func(cmd *cobra.Command, args []string) {
+		err := createLogbook()
+		if err != nil {
+			fmt.Println("Error:", err)
+			os.Exit(1)
+		}
+		fmt.Println("Logbook created successfully.")
+	},
+}
+
+func init() {
+	rootCmd.AddCommand(createLogbookCmd)
 }
 
 func main() {
-	createLogbook()
+	if err := rootCmd.Execute(); err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
 }
