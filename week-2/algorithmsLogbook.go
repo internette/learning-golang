@@ -61,8 +61,35 @@ var createLogbookCmd = &cobra.Command{
 	},
 }
 
+func listProjects() []Folder {
+	data, err := os.ReadFile("logbook.json")
+	if err != nil {
+		fmt.Println("No file found. Starting with an empty list.")
+	}
+
+	var projects []Folder
+	err = json.Unmarshal(data, &projects)
+	if err != nil {
+		fmt.Println("Error unmarshaling JSON:", err)
+	}
+	return projects
+}
+
+var listProjectsCmd = &cobra.Command{
+	Use:   "list",
+	Short: "List all algorithm projects",
+	Long:  "List all algorithm projects in the logbook.",
+	Run: func(cmd *cobra.Command, args []string) {
+		projects := listProjects()
+		for _, project := range projects {
+			fmt.Printf("- %s (%s)\n", project.Name, project.Path)
+		}
+	},
+}
+
 func init() {
 	rootCmd.AddCommand(createLogbookCmd)
+	rootCmd.AddCommand(listProjectsCmd)
 }
 
 func main() {
