@@ -1,7 +1,9 @@
 package main
 
 import (
+	"flag"
 	"fmt"
+	"regexp"
 )
 
 func sumArray(numbers []int) int {
@@ -33,8 +35,17 @@ func getLargestSumAndArray(numbers []int) (int, []int) {
 }
 
 func main() {
-	testArr := []int{2, -1, 2, -4, 4, -2, 2}
-	largestSum, largestArr := getLargestSumAndArray(testArr)
-	fmt.Printf("Largest Sum: %d\n", largestSum)
-	fmt.Printf("Largest Array: %v\n", largestArr)
+	input := flag.String("input", "", "Input array of integers")
+	flag.Parse()
+	matched, err := regexp.MatchString(`[a-zA-Z]+`, *input)
+	if err != nil {
+		fmt.Println("Error:", err)
+		return
+	} else if matched {
+		fmt.Println("Please provide a valid input array of two or more integers")
+		return
+	}
+	// largestSum, largestArr := getLargestSumAndArray(input)
+	// fmt.Printf("Largest Sum: %d\n", largestSum)
+	// fmt.Printf("Largest Array: %v\n", largestArr)
 }
