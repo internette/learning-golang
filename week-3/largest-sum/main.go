@@ -4,7 +4,22 @@ import (
 	"flag"
 	"fmt"
 	"regexp"
+	"strconv"
+	"strings"
 )
+
+func convertFlagStringToIntArr(input string) []int {
+	slice := strings.Split(input, ",")
+	intArr := make([]int, len(slice))
+	for i, v := range slice {
+		f, err := strconv.ParseFloat(v, 64)
+		if err != nil {
+			fmt.Println("Error:", err)
+		}
+		intArr[i] = int(f)
+	}
+	return intArr
+}
 
 func sumArray(numbers []int) int {
 	sum := 0
@@ -24,7 +39,6 @@ func getLargestSumAndArray(numbers []int) (int, []int) {
 		for j := i; j < len(numbers)+1; j++ {
 			currentArr := numbers[i:j]
 			currentSum := sumArray(currentArr)
-			fmt.Println(currentArr, currentSum)
 			if len(currentArr) > 1 && currentSum > largestSum {
 				largestSum = currentSum
 				largestArr = currentArr
@@ -45,7 +59,8 @@ func main() {
 		fmt.Println("Please provide a valid input array of two or more integers")
 		return
 	}
-	// largestSum, largestArr := getLargestSumAndArray(input)
-	// fmt.Printf("Largest Sum: %d\n", largestSum)
-	// fmt.Printf("Largest Array: %v\n", largestArr)
+	parsedFlagInput := convertFlagStringToIntArr(*input)
+	largestSum, largestArr := getLargestSumAndArray(parsedFlagInput)
+	fmt.Printf("Largest Sum: %d\n", largestSum)
+	fmt.Printf("Largest Array: %v\n", largestArr)
 }
