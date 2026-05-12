@@ -13,3 +13,12 @@ func TestConvertFlagStringToIntArr(t *testing.T) {
 		t.Errorf("Expected %v, got %v", expectedValue, flags)
 	}
 }
+
+func TestSumArray(t *testing.T) {
+	input := []int{1, 2, -4, 3, -11, 8, 2}
+	result := sumArray(input)
+	expectedValue := 1
+	if result != expectedValue {
+		t.Errorf("Expected %v, got %v", expectedValue, result)
+	}
+}
