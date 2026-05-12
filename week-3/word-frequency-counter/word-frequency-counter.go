@@ -4,6 +4,7 @@ import (
 	"flag"
 	"fmt"
 	"strings"
+	"unicode"
 )
 
 func countWord(word string, paragraph string) int {
@@ -11,7 +12,9 @@ func countWord(word string, paragraph string) int {
 	if !strings.Contains(paragraph, word) {
 		fmt.Println("The paragraph does not contain the word:", word)
 	}
-	words := strings.Split(paragraph, " ")
+	words := strings.FieldsFunc(paragraph, func(r rune) bool {
+		return unicode.IsPunct(r) || unicode.IsSpace(r)
+	})
 	for _, w := range words {
 		if w == word {
 			count++
@@ -21,11 +24,14 @@ func countWord(word string, paragraph string) int {
 }
 
 func buildWordDictionary(paragraph string) map[string]int {
-	words := strings.Split(paragraph, " ")
+	words := strings.FieldsFunc(paragraph, func(r rune) bool {
+		return unicode.IsPunct(r) || unicode.IsSpace(r)
+	})
 	dict := make(map[string]int)
 	for _, w := range words {
 		dict[w]++
 	}
+	fmt.Println(dict)
 	return dict
 }
 
@@ -45,13 +51,15 @@ func findMostOccurringWord(paragraph string) (string, int) {
 func findLeastOccurringWord(paragraph string) (string, int) {
 	dict := buildWordDictionary(paragraph)
 	leastOccurringWord := ""
-	minCount := int(^uint(0) >> 1) // Initialize to maximum int value
+	minCount := int(^uint(0) >> 1) // max int value as starting point
+
 	for word, count := range dict {
 		if count < minCount {
 			minCount = count
 			leastOccurringWord = word
 		}
 	}
+
 	return leastOccurringWord, minCount
 }
 
