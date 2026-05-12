@@ -29,7 +29,7 @@ func buildWordDictionary(paragraph string) map[string]int {
 	})
 	dict := make(map[string]int)
 	for _, w := range words {
-		dict[w]++
+		dict[strings.ToLower(w)]++
 	}
 	return dict
 }
