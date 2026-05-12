@@ -42,6 +42,19 @@ func findMostOccurringWord(paragraph string) (string, int) {
 	return mostOccurringWord, maxCount
 }
 
+func findLeastOccurringWord(paragraph string) (string, int) {
+	dict := buildWordDictionary(paragraph)
+	leastOccurringWord := ""
+	minCount := int(^uint(0) >> 1) // Initialize to maximum int value
+	for word, count := range dict {
+		if count < minCount {
+			minCount = count
+			leastOccurringWord = word
+		}
+	}
+	return leastOccurringWord, minCount
+}
+
 func main() {
 	thingToFind := flag.String("find", "word", "Thing to find")
 	wordToFind := flag.String("word", "", "Word to find")
@@ -54,6 +67,9 @@ func main() {
 	case "most-occurring":
 		mostOccurringWord, maxCount := findMostOccurringWord(*paragraph)
 		fmt.Println("Most occurring word:", mostOccurringWord, ", count:", maxCount)
+	case "least-occurring":
+		leastOccurringWord, minCount := findLeastOccurringWord(*paragraph)
+		fmt.Println("Least occurring word:", leastOccurringWord, ", count:", minCount)
 	default:
 		wordCount := countWord(*wordToFind, *paragraph)
 		fmt.Println("Frequency of '", *wordToFind, "':", wordCount)
