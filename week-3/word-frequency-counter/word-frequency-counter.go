@@ -16,7 +16,7 @@ func countWord(word string, paragraph string) int {
 		return unicode.IsPunct(r) || unicode.IsSpace(r)
 	})
 	for _, w := range words {
-		if w == word {
+		if strings.EqualFold(w, word) {
 			count++
 		}
 	}
