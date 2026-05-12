@@ -31,7 +31,6 @@ func buildWordDictionary(paragraph string) map[string]int {
 	for _, w := range words {
 		dict[w]++
 	}
-	fmt.Println(dict)
 	return dict
 }
 
