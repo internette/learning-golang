@@ -22,3 +22,16 @@ func TestSumArray(t *testing.T) {
 		t.Errorf("Expected %v, got %v", expectedValue, result)
 	}
 }
+
+func TestGetLargestSumAndArray(t *testing.T) {
+	input := []int{1, 2, -4, 3, -11, 8, 2}
+	largestSum, largestArray := getLargestSumAndArray(input)
+	expectedSum := 10
+	expectedArray := []int{8, 2}
+	if largestSum != expectedSum {
+		t.Errorf("Expected sum %v, got %v", expectedSum, largestSum)
+	}
+	if !reflect.DeepEqual(expectedArray, largestArray) {
+		t.Errorf("Expected array %v, got %v", expectedArray, largestArray)
+	}
+}
